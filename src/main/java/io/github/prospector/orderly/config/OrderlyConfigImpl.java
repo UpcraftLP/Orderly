@@ -8,9 +8,9 @@ import io.github.prospector.orderly.api.config.OrderlyConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.Identifier;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 
 import java.util.Optional;
 import java.util.Set;
@@ -91,8 +91,8 @@ public class OrderlyConfigImpl implements OrderlyConfig {
                 .addEntry(ConfigEntryBuilder.create().startBooleanToggle(new TranslatableText(String.format("config.%s.showOnBosses", Orderly.MODID)), config.canShowOnBosses()).setDefaultValue(true).setSaveConsumer(b -> config.showOnBosses = b).build())
                 .addEntry(ConfigEntryBuilder.create().startBooleanToggle(new TranslatableText(String.format("config.%s.showOnlyFocused", Orderly.MODID)), config.showingOnlyFocused()).setDefaultValue(false).setSaveConsumer(b -> config.showOnlyFocused = b).build())
                 .addEntry(ConfigEntryBuilder.create().startBooleanToggle(new TranslatableText(String.format("config.%s.enableDebugInfo", Orderly.MODID)), config.isDebugInfoEnabled()).setDefaultValue(false).setSaveConsumer(b -> config.enableDebugInfo = b).build())
-                .addEntry(ConfigEntryBuilder.create().startStrList(new TranslatableText(String.format("config.%s.blacklist", Orderly.MODID)), Lists.newArrayList(config.getBlacklist())).setCellErrorSupplier(value -> Optional.ofNullable(!Identifier.isValid(value) ? new TranslatableText("config.orderly.error.invalid_identifier") : null)).setDefaultValue(Lists.newArrayList(blacklistDefaults)).setExpended(true).setSaveConsumer(strings -> config.blacklist = strings.stream().filter(Identifier::isValid).map(Identifier::new).map(Identifier::toString).collect(Collectors.toSet())).build())
-                .addEntry(ConfigEntryBuilder.create().startStrList(new TranslatableText(String.format("config.%s.bosses", Orderly.MODID)), Lists.newArrayList(config.getBosses())).setCellErrorSupplier(value -> Optional.ofNullable(!Identifier.isValid(value) ? new TranslatableText("config.orderly.error.invalid_identifier") : null)).setDefaultValue(Lists.newArrayList(bossDefaults)).setExpended(true).setSaveConsumer(strings -> config.bosses = strings.stream().filter(Identifier::isValid).map(Identifier::new).map(Identifier::toString).collect(Collectors.toSet())).build());
+                .addEntry(ConfigEntryBuilder.create().startStrList(new TranslatableText(String.format("config.%s.blacklist", Orderly.MODID)), Lists.newArrayList(config.getBlacklist())).setCellErrorSupplier(value -> Optional.ofNullable(!Identifier.isValid(value) ? new TranslatableText("config.orderly.error.invalid_identifier") : null)).setDefaultValue(Lists.newArrayList(blacklistDefaults)).setExpanded(true).setSaveConsumer(strings -> config.blacklist = strings.stream().filter(Identifier::isValid).map(Identifier::new).map(Identifier::toString).collect(Collectors.toSet())).build())
+                .addEntry(ConfigEntryBuilder.create().startStrList(new TranslatableText(String.format("config.%s.bosses", Orderly.MODID)), Lists.newArrayList(config.getBosses())).setCellErrorSupplier(value -> Optional.ofNullable(!Identifier.isValid(value) ? new TranslatableText("config.orderly.error.invalid_identifier") : null)).setDefaultValue(Lists.newArrayList(bossDefaults)).setExpanded(true).setSaveConsumer(strings -> config.bosses = strings.stream().filter(Identifier::isValid).map(Identifier::new).map(Identifier::toString).collect(Collectors.toSet())).build());
         builder.setSavingRunnable(OrderlyConfigManager::save);
         return builder.build();
     }

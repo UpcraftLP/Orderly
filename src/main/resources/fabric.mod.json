@@ -1,43 +1,40 @@
 {
-    "schemaVersion": 1,
-    "id": "orderly",
-    "name": "Orderly",
-    "version": "$version",
-    "environment": "client",
-    "license": "CC BY-NC-SA 3.0",
-    "icon": "assets/orderly/icon.png",
-    "depends": {
-        "cloth-config2": "^4.4.0",
-        "fabric-keybindings-v0": ">=0.1.1",
-        "fabric-resource-loader-v0": "*"
-    },
-    "entrypoints": {
-        "client": [
-            "io.github.prospector.orderly.Orderly"
-        ],
-        "modmenu": [
-            "io.github.prospector.orderly.config.OrderlyModMenuCompat"
-        ]
-    },
-    "contact": {
-        "homepage": "https://www.curseforge.com/minecraft/mc-mods/orderly",
-        "issues": "https://github.com/UpcraftLP/Orderly/issues"
-    },
-    "authors": [
-        "Vazkii",
-        "Prospector",
-        {
-            "name": "UpcraftLP",
-            "contact": {
-                "homepage": "https://twitter.com/UpcraftLP"
-            }
-        }
+  "schemaVersion": 1,
+  "id": "orderly",
+  "name": "Orderly",
+  "version": "$version",
+  "environment": "client",
+  "license": "CC BY-NC-SA 3.0",
+  "icon": "assets/orderly/icon.png",
+  "depends": {
+    "cloth-config2": ">=5.0",
+    "fabric-keybindings-v0": ">=0.1.1",
+    "fabric-resource-loader-v0": "*"
+  },
+  "entrypoints": {
+    "client": [
+      "io.github.prospector.orderly.Orderly"
     ],
-    "description": "Minimalistic Functional Unit Plates for the modern Minecrafter. Not a mod by Vazkii.",
-    "mixins": [
-        "mixins.orderly.json"
-    ],
-    "custom": {
-        "modmenu:clientsideOnly": true
+    "modmenu": [
+      "io.github.prospector.orderly.config.OrderlyModMenuCompat"
+    ]
+  },
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/orderly",
+    "issues": "https://github.com/UpcraftLP/Orderly/issues"
+  },
+  "authors": [
+    "Vazkii",
+    "Prospector",
+    {
+      "name": "UpcraftLP",
+      "contact": {
+        "homepage": "https://twitter.com/UpcraftLP"
+      }
     }
+  ],
+  "description": "Minimalistic Functional Unit Plates for the modern Minecrafter. Not a mod by Vazkii.",
+  "mixins": [
+    "mixins.orderly.json"
+  ]
 }

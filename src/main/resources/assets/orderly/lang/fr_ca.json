@@ -1,5 +1,5 @@
 {
-    "key.orderly.toggle": "Activer/Désactiver Barres de Santé",
-    "config.orderly.title": "Propre",
-    "config.orderly.error.invalid_identifier": "%s n'est pas un identificateur valide!"
+  "key.orderly.toggle": "Activer/Désactiver Barres de Santé",
+  "config.orderly.title": "Propre",
+  "config.orderly.error.invalid_identifier": "%s n'est pas un identificateur valide!"
 }

@@ -1,10 +1,6 @@
 package io.github.prospector.orderly.config;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import io.github.prospector.orderly.Orderly;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -32,7 +28,7 @@ public class OrderlyConfigManager {
 
     public static OrderlyConfigImpl init() {
         configFile = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(Orderly.MODID + ".json");
-        if(!Files.exists(configFile)) {
+        if (!Files.exists(configFile)) {
             Orderly.getLogger().info("creating orderly config file ({})", configFile::getFileName);
             save().join();
         }
@@ -42,10 +38,9 @@ public class OrderlyConfigManager {
 
     public static CompletableFuture<OrderlyConfigImpl> load() {
         return CompletableFuture.supplyAsync(() -> {
-            try(BufferedReader reader = Files.newBufferedReader(configFile)) {
+            try (BufferedReader reader = Files.newBufferedReader(configFile)) {
                 return GSON.fromJson(reader, OrderlyConfigImpl.class);
-            }
-            catch (IOException | JsonParseException e) {
+            } catch (IOException | JsonParseException e) {
                 Orderly.getLogger().error("unable to read config file, restoring defaults!", e);
                 save();
                 return new OrderlyConfigImpl();
@@ -56,10 +51,9 @@ public class OrderlyConfigManager {
     public static CompletableFuture<Void> save() {
         Orderly.getLogger().trace("saving orderly config file to {}", configFile);
         return CompletableFuture.runAsync(() -> {
-            try(BufferedWriter writer = Files.newBufferedWriter(configFile)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(configFile)) {
                 GSON.toJson(Optional.ofNullable(config).orElseGet(OrderlyConfigImpl::new), writer);
-            }
-            catch (IOException | JsonIOException e) {
+            } catch (IOException | JsonIOException e) {
                 Orderly.getLogger().error("unable to write config file", e);
             }
         }, EXECUTOR);

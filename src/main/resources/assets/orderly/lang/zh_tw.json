@@ -1,5 +1,5 @@
 {
-    "key.orderly.toggle": "生命條開關",
-    "config.orderly.title": "清晰的血條",
-    "config.orderly.error.invalid_identifier": "%s 不是有效的標識符！"
+  "key.orderly.toggle": "生命條開關",
+  "config.orderly.title": "清晰的血條",
+  "config.orderly.error.invalid_identifier": "%s 不是有效的標識符！"
 }

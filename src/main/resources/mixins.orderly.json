@@ -1,12 +1,12 @@
 {
-    "required": true,
-    "minVersion": "0.7.11",
-    "package": "io.github.prospector.orderly.mixin",
-    "compatibilityLevel": "JAVA_8",
-    "client": [
-        "MixinHealthBarRender"
-    ],
-    "injectors": {
-        "defaultRequire": 1
-    }
+  "required": true,
+  "minVersion": "0.7.11",
+  "package": "io.github.prospector.orderly.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinHealthBarRender"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

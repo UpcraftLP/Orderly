@@ -21,39 +21,36 @@ public final class RenderUtil {
     }
 
     public static ItemStack getIcon(LivingEntity entity, boolean boss) {
-        if(boss) {
+        if (boss) {
             return ICON_BOSSES;
         }
         EntityGroup attr = entity.getGroup();
-        if(attr == EntityGroup.ARTHROPOD) {
+        if (attr == EntityGroup.ARTHROPOD) {
             return ICON_ARTHROPODS;
-        }
-        else if(attr == EntityGroup.UNDEAD) {
+        } else if (attr == EntityGroup.UNDEAD) {
             return ICON_UNDEAD;
-        }
-        else {
+        } else {
             return ICON_DEFAULT;
         }
     }
 
     public static int getColor(LivingEntity entity, boolean colorByType, boolean boss) {
-        if(colorByType) {
+        if (colorByType) {
             int r = 0;
             int g = 255;
             int b = 0;
-            if(boss) {
+            if (boss) {
                 r = 128;
                 g = 0;
                 b = 128;
             }
-            if(entity instanceof Monster) { //MobEntity is a red herring
+            if (entity instanceof Monster) { //MobEntity is a red herring
                 r = 255;
                 g = 0;
                 b = 0;
             }
             return 0xff000000 | r << 16 | g << 8 | b;
-        }
-        else {
+        } else {
             float health = MathHelper.clamp(entity.getHealth(), 0.0F, entity.getMaxHealth());
             float hue = Math.max(0.0F, (health / entity.getMaxHealth()) / 3.0F - 0.07F);
             return Color.HSBtoRGB(hue, 1.0F, 1.0F);

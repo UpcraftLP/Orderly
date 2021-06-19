@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
     id 'idea'
     id 'eclipse'
-    id 'fabric-loom' version '0.4-SNAPSHOT'
+    id 'fabric-loom' version '0.8-SNAPSHOT'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -17,11 +17,12 @@ def ENV = System.getenv()
 def buildNumber = "+" + (ENV.BUILD_NUMBER ? ("build." + ENV.BUILD_NUMBER) : "custom")
 def buildMeta = (!ENV.TAG || ENV.TAG.endsWith("-beta") || ENV.TAG.endsWith("-alpha")) ? buildNumber : ""
 def modVersion = (ENV.TAG ?: version)
-version = "${modVersion}${buildMeta}-1.16"
+version = "${modVersion}${buildMeta}-1.17"
 
 
 repositories {
-    jcenter()
+    maven { url "https://maven.terraformersmc.com/releases" }
+    maven { url "https://maven.shedaniel.me/" }
 }
 
 dependencies {
@@ -29,25 +30,21 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "me.shedaniel.cloth:config-2:${project.clothconfig_version}"
-    include "me.shedaniel.cloth:config-2:${project.clothconfig_version}"
+    modImplementation "me.shedaniel.cloth:cloth-config-fabric:${project.clothconfig_version}"
+    // include "me.shedaniel.cloth:config-2:${project.clothconfig_version}"
     compileOnly "com.google.code.findbugs:jsr305:3.0.2"
-    modImplementation "io.github.prospector:modmenu:${project.mod_menu_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
 }
 
 processResources {
     inputs.property "version", project.version
 
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
+    filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
-    }
 }
+
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }

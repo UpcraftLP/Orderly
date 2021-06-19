@@ -17,7 +17,7 @@ public final class UIManager {
     private static Identifier currentID;
 
     public static void registerStyle(Identifier identifier, Supplier<UIStyle> style) {
-        if(STYLES.putIfAbsent(identifier, style) != null) {
+        if (STYLES.putIfAbsent(identifier, style) != null) {
             Orderly.getLogger().error("attempted to override UI style {}, this is not allowed!", identifier, new IllegalStateException(identifier + " registered twice"));
         }
     }

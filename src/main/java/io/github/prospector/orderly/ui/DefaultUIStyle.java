@@ -6,26 +6,22 @@ import io.github.prospector.orderly.api.UIStyle;
 import io.github.prospector.orderly.api.config.OrderlyConfig;
 import io.github.prospector.orderly.util.RenderUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.text.MutableText;
 
 public class DefaultUIStyle extends SimpleUIStyle {
     private static final UIStyle INSTANCE = new DefaultUIStyle();
@@ -49,21 +45,21 @@ public class DefaultUIStyle extends SimpleUIStyle {
         float size = boss ? config.getPlateSizeBoss() : config.getPlateSize();
         float textScale = 0.5F;
         //noinspection ConstantConditions
-        String name = (entity.hasCustomName() ? ((MutableText)entity.getCustomName()).formatted(Formatting.ITALIC) : entity.getDisplayName()).getString();
+        String name = (entity.hasCustomName() ? ((MutableText) entity.getCustomName()).formatted(Formatting.ITALIC) : entity.getDisplayName()).getString();
         float namel = mc.textRenderer.getWidth(name) * textScale;
-        if(namel + 20 > size * 2) {
+        if (namel + 20 > size * 2) {
             size = namel / 2.0F + 10.0F;
         }
         float healthSize = size * (health / entity.getMaxHealth());
         MatrixStack.Entry entry = matrices.peek();
         Matrix4f modelViewMatrix = entry.getModel();
-        Vector3f normal = new Vector3f(0.0F, 1.0F, 0.0F);
+        Vec3f normal = new Vec3f(0.0F, 1.0F, 0.0F);
         normal.transform(entry.getNormal());
         VertexConsumer buffer = immediate.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE, false)); // VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
         int barHeight = config.getBarHeight();
         final int overlay = OverlayTexture.DEFAULT_UV;
         // Background
-        if(config.drawsBackground()) {
+        if (config.drawsBackground()) {
             int bgHeight = config.getBackgroundHeight();
             float padding = config.getBackgroundPadding();
             buffer.vertex(modelViewMatrix, -size - padding, -bgHeight, 0.0F).color(255, 255, 255, 64).texture(0.0F, 0.0F).overlay(overlay).light(light).normal(normal.getX(), normal.getY(), normal.getZ()).next();
@@ -106,22 +102,22 @@ public class DefaultUIStyle extends SimpleUIStyle {
                 String maxHpStr = String.format("%s%.2f", Formatting.BOLD, entity.getMaxHealth()).replaceAll("\\.00$", "");
                 String hpStr = String.format("%.2f", health).replaceAll("\\.00$", "");
                 String percStr = String.format("%.2f%%", percent).replace(".00%", "%");
-                if(maxHpStr.endsWith(".00")) {
+                if (maxHpStr.endsWith(".00")) {
                     maxHpStr = maxHpStr.substring(0, maxHpStr.length() - 3);
                 }
-                if(hpStr.endsWith(".00")) {
+                if (hpStr.endsWith(".00")) {
                     hpStr = hpStr.substring(0, hpStr.length() - 3);
                 }
-                if(config.showCurrentHP()) {
+                if (config.showCurrentHP()) {
                     mc.textRenderer.draw(hpStr, 2, h, white, false, modelViewMatrix, immediate, false, black, light);
                 }
-                if(config.canShowMaxHP()) {
+                if (config.canShowMaxHP()) {
                     mc.textRenderer.draw(maxHpStr, (int) (size / (textScale * s1) * 2) - 2 - mc.textRenderer.getWidth(maxHpStr), h, white, false, modelViewMatrix, immediate, false, black, light);
                 }
-                if(config.canShowPercentage()) {
+                if (config.canShowPercentage()) {
                     mc.textRenderer.draw(percStr, (int) (size / (textScale * s1)) - mc.textRenderer.getWidth(percStr) / 2.0F, h, white, false, modelViewMatrix, immediate, false, black, light);
                 }
-                if(config.isDebugInfoEnabled() && mc.options.debugEnabled) {
+                if (config.isDebugInfoEnabled() && mc.options.debugEnabled) {
                     mc.textRenderer.draw(String.format("ID: \"%s\"", Registry.ENTITY_TYPE.getId(entity.getType())), 0, h + 16, white, false, modelViewMatrix, immediate, false, black, light);
                 }
             }
@@ -131,26 +127,26 @@ public class DefaultUIStyle extends SimpleUIStyle {
             s1 = 0.5F;
             matrices.scale(s1, s1, s1);
             matrices.translate(size / (textScale * s1) * 2 - 16, 0.0F, 0.0F);
-            mc.getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
-            if(icon != null && config.canShowAttributes()) {
+            mc.getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
+            if (icon != null && config.canShowAttributes()) {
                 renderIcon(off, 0, icon, matrices, immediate, OverlayTexture.DEFAULT_UV, light);
                 off -= 16;
             }
             int armor = entity.getArmor();
-            if(armor > 0 && config.canShowArmor()) {
+            if (armor > 0 && config.canShowArmor()) {
                 int ironArmor = armor % 5;
                 int diamondArmor = armor / 5;
-                if(!config.canShowGroupArmor()) {
+                if (!config.canShowGroupArmor()) {
                     ironArmor = armor;
                     diamondArmor = 0;
                 }
                 icon = new ItemStack(Items.IRON_CHESTPLATE);
-                for(int i = 0; i < ironArmor; i++) {
+                for (int i = 0; i < ironArmor; i++) {
                     renderIcon(off, 0, icon, matrices, immediate, OverlayTexture.DEFAULT_UV, light);
                     off -= 4;
                 }
                 icon = new ItemStack(Items.DIAMOND_CHESTPLATE);
-                for(int i = 0; i < diamondArmor; i++) {
+                for (int i = 0; i < diamondArmor; i++) {
                     renderIcon(off, 0, icon, matrices, immediate, OverlayTexture.DEFAULT_UV, light);
                     off -= 4;
                 }
@@ -161,7 +157,7 @@ public class DefaultUIStyle extends SimpleUIStyle {
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(true);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     private void renderIcon(double x, double y, ItemStack stack, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int overlay, int light) {
@@ -170,19 +166,18 @@ public class DefaultUIStyle extends SimpleUIStyle {
         matrices.translate(x, y, -0.002D);
         matrices.scale(16.0F, 16.0F, 1.0F);
         try {
-            VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(SpriteAtlasTexture.BLOCK_ATLAS_TEX, false));
+            VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, false));
             BakedModel bakedModel = mc.getItemRenderer().getModels().getModel(stack);
             Sprite textureAtlasSprite = bakedModel.getSprite();
             MatrixStack.Entry entry = matrices.peek();
             Matrix4f modelViewMatrix = entry.getModel();
-            Vector3f normal = new Vector3f(0.0F, 1.0F, 0.0F);
+            Vec3f normal = new Vec3f(0.0F, 1.0F, 0.0F);
             normal.transform(entry.getNormal());
             buffer.vertex(modelViewMatrix, 0.0F, 0.0F, 0.0F).color(255, 255, 255, 255).texture(textureAtlasSprite.getMinU(), textureAtlasSprite.getMinV()).overlay(overlay).light(light).normal(normal.getX(), normal.getY(), normal.getZ()).next();
             buffer.vertex(modelViewMatrix, 0.0F, 1.0F, 0.0F).color(255, 255, 255, 255).texture(textureAtlasSprite.getMinU(), textureAtlasSprite.getMaxV()).overlay(overlay).light(light).normal(normal.getX(), normal.getY(), normal.getZ()).next();
             buffer.vertex(modelViewMatrix, 1.0F, 1.0F, 0.0F).color(255, 255, 255, 255).texture(textureAtlasSprite.getMaxU(), textureAtlasSprite.getMaxV()).overlay(overlay).light(light).normal(normal.getX(), normal.getY(), normal.getZ()).next();
             buffer.vertex(modelViewMatrix, 1.0F, 0.0F, 0.0F).color(255, 255, 255, 255).texture(textureAtlasSprite.getMaxU(), textureAtlasSprite.getMinV()).overlay(overlay).light(light).normal(normal.getX(), normal.getY(), normal.getZ()).next();
-        }
-        catch (Exception ignore) {
+        } catch (Exception ignore) {
             //TODO exception handling?
         }
         matrices.pop();

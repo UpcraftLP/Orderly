@@ -1,5 +1,5 @@
 {
-    "key.orderly.toggle": "переключиить панели здоровья",
-    "config.orderly.title": "Orderly",
-    "config.orderly.error.invalid_identifier": "%s не является действительным идентификатором!"
+  "key.orderly.toggle": "переключиить панели здоровья",
+  "config.orderly.title": "Orderly",
+  "config.orderly.error.invalid_identifier": "%s не является действительным идентификатором!"
 }
